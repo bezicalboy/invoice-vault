@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  user
+  admin
+}
+
+enum InvoiceStatus {
+  draft
+  sent
+  paid
+  overdue
+  cancelled
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  passwordHash String
+  name         String?
+  avatar       String?
+  role         Role      @default(user)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  lastSignInAt DateTime  @default(now())
+
+  companyProfile CompanyProfile?
+  clients        Client[]
+  invoices       Invoice[]
+}
+
+model CompanyProfile {
+  id          Int      @id @default(autoincrement())
+  userId      Int      @unique
+  companyName String?
+  logo        String?
+  address     String?
+  phone       String?
+  email       String?
+  taxId       String?
+  currency    String   @default("USD")
+  accentColor String   @default("#d0ff59")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Client {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  name      String
+  email     String?
+  company   String?
+  address   String?
+  phone     String?
+  currency  String   @default("USD")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  invoices Invoice[]
+}
+
+model Invoice {
+  id            Int           @id @default(autoincrement())
+  userId        Int
+  clientId      Int
+  invoiceNumber String        @unique
+  issueDate     DateTime      @db.Date
+  dueDate       DateTime      @db.Date
+  status        InvoiceStatus @default(draft)
+  subtotal      Decimal       @default(0) @db.Decimal(12, 2)
+  taxRate       Decimal       @default(0) @db.Decimal(5, 2)
+  taxAmount     Decimal       @default(0) @db.Decimal(12, 2)
+  total         Decimal       @default(0) @db.Decimal(12, 2)
+  notes         String?
+  currency      String        @default("USD")
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  user   User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  client Client        @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  items  InvoiceItem[]
+}
+
+model InvoiceItem {
+  id          Int      @id @default(autoincrement())
+  invoiceId   Int
+  description String
+  quantity    Decimal  @default(1) @db.Decimal(10, 2)
+  unitPrice   Decimal  @default(0) @db.Decimal(12, 2)
+  amount      Decimal  @default(0) @db.Decimal(12, 2)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+}
