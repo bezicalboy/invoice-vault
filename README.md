@@ -1,81 +1,108 @@
-# DEMO VIDEO
+# Invoice Vault
 
+Modern full-stack invoice management platform built with React, TypeScript, Hono, tRPC, and Prisma.
+
+Invoice Vault helps freelancers, agencies, and small businesses manage invoices, clients, and billing workflows through a fast and modern web application.
+
+---
+
+## 🎥 Demo
 
 https://github.com/user-attachments/assets/850b16ee-4fe8-46dc-949d-d28c527c6963
 
+---
 
+## ✨ Features
 
-# React + TypeScript + Vite
+### Invoice Management
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- Create invoices
+- View invoice details
+- Track invoice status
+- Organize invoice records
 
-Currently, two official plugins are available:
+### Client Management
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Manage client information
+- Link invoices to clients
+- Centralized customer database
 
-## React Compiler
+### Authentication
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- User registration
+- Secure login
+- JWT-based authentication
+- Protected routes
 
-## Expanding the ESLint configuration
+### Dashboard
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Invoice overview
+- Client overview
+- Business insights
+- Analytics visualization
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Cloud Storage
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- AWS S3 integration
+- Secure file uploads
+- Scalable storage architecture
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Developer Experience
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- End-to-end TypeScript
+- Type-safe APIs with tRPC
+- Schema validation with Zod
+- Fast development workflow using Vite
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-# invoice-vault
+## 🛠 Tech Stack
+
+### Frontend
+
+- React 19
+- TypeScript
+- Vite
+- React Router v7
+- React Query
+- Tailwind CSS
+- Radix UI
+- Recharts
+
+### Backend
+
+- Hono
+- tRPC
+- Prisma ORM
+
+### Database
+
+- PostgreSQL / MySQL (Prisma Compatible)
+
+### Authentication
+
+- JOSE (JWT)
+- bcryptjs
+
+### Cloud Services
+
+- AWS S3
+
+---
+
+## 🏗 Architecture
+
+```text
+React Client
+     │
+     ▼
+    tRPC
+     │
+     ▼
+ Hono Server
+     │
+ ┌───┴────┐
+ ▼        ▼
+Prisma   AWS S3
+ ▼
+Database
